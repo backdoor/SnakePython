@@ -5,12 +5,12 @@ import random
 import time
 from random import*
 
-pyxel.init(1200, 690, title="Snake by NaokiP and MaximeR")
+pyxel.init(1200, 690, title="Tired Snake by NaokiP and MaximeR")
 
 DEBUG = False
 jeu = {"dir_prov": "up",
        "direction": "up",
-       "compteur": 0,     
+       "compteur": 0,
        "perso_x": 600,
        "perso_y": 330,
        "pomme_x_possible": [k for k in range(0,1200,30)],
@@ -28,13 +28,13 @@ jeu = {"dir_prov": "up",
 
 jeu["pomme_x"], jeu["pomme_y"] = jeu["pomme_x_possible"][randint(0,39)], jeu["pomme_y_possible"][randint(0,22)]
 
-pyxel.load("images.pyxres")
+pyxel.load("assets/images.pyxres")
 
 def direction_change(dir, dir_ref):
     """
     permet de changer la direction du serpent selon
     la valeur d'une directioon réference.
-    
+
     """
     if pyxel.btn(pyxel.KEY_RIGHT):
         if dir_ref != 'left':
@@ -56,7 +56,7 @@ def perso_deplacement(dir,x, y):
     """
     change la valeur de x est y qui correspondent à des coordonné
     selon la direction défini.
-    
+
     """
     if dir == "right":
         if (x < 1170) :
@@ -85,7 +85,7 @@ def perso_deplacement(dir,x, y):
 def pomme():
     """
     programme pour les actions de la pommes
-    
+
     """
     if jeu["pomme_x"] == jeu["perso_x"] and jeu["pomme_y"] == jeu["perso_y"]:
         jeu["long_serp"] += 1
@@ -98,24 +98,24 @@ def decalage_tab(tab):
     """
     décale les valeurs de tab en écrasant la dernière valeur sauf si
     la longueur du serpent a augmenté.
-    
+
     """
     if len(tab) < jeu["long_serp"]:
         tab.append(tab[len(tab)-1])
     for k in range(len(tab)-1,0,-1):
         tab[k] = tab[k-1]
-    
-       
+
+
 
 
 def draw():
     """
-    
+
     dessine l'écran du jeu.
-    
+
     """
     pyxel.cls(0)
-    
+
     if jeu["live"] == True:
         pyxel.blt(10, 10, 1, 0, 0, 54, 16)
         pyxel.blt(74, 10, 1, jeu["chiffre"][jeu["long_serp"]//100][0], jeu["chiffre"][jeu["long_serp"]//100][1], 10, 16)
@@ -137,18 +137,18 @@ def draw():
 def lifecheck():
     """
     vérifie la colision entre la tete du serpent et sa queue.
-    
+
     """
     for k in range(len(jeu["past_position"])):
         if jeu["past_position"][k] == (jeu["perso_x"], jeu["perso_y"]):
             jeu["live"] = False
-                
-        
+
+
 
 def update():
     """
     permet le déroulement du jeu.
-    
+
     """
     jeu["compteur"] += 1
     pomme()
